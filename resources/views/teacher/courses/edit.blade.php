@@ -1,0 +1,89 @@
+@extends('layouts.dashboard')
+
+@section('title', __('Edit course'))
+
+@section('sidebar')
+    @include('partials.sidebar-teacher')
+@endsection
+
+@section('content')
+    <div class="mb-8">
+        <h1 class="text-2xl font-semibold tracking-tight text-neutral-900">{{ __('Edit course') }}</h1>
+        <p class="mt-1 text-sm text-neutral-600">{{ $course->title }}</p>
+    </div>
+
+    <x-ui.card class="max-w-2xl">
+        <form method="POST" action="{{ route('teacher.courses.update', $course) }}" enctype="multipart/form-data" class="space-y-6">
+            @csrf
+            @method('PATCH')
+
+            <div>
+                <x-input-label for="title" :value="__('Title')" />
+                <x-text-input id="title" class="mt-2" type="text" name="title" :value="old('title', $course->title)" required autofocus />
+                <x-input-error class="mt-2" :messages="$errors->get('title')" />
+            </div>
+
+            <div>
+                <x-input-label for="description" :value="__('Description')" />
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="5"
+                    class="mt-2 block w-full rounded-xl border border-neutral-200 bg-white px-3 py-2.5 text-sm text-neutral-900 shadow-sm placeholder:text-neutral-400 focus:border-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900/10"
+                >{{ old('description', $course->description) }}</textarea>
+                <x-input-error class="mt-2" :messages="$errors->get('description')" />
+            </div>
+
+            @if ($course->coverPublicUrl())
+                <div class="rounded-xl border border-neutral-100 bg-neutral-50 p-3">
+                    <p class="text-xs font-medium text-neutral-500">{{ __('Current cover') }}</p>
+                    <img src="{{ $course->coverPublicUrl() }}" alt="" class="mt-2 max-h-40 rounded-lg object-cover" />
+                </div>
+            @endif
+
+            <div>
+                <x-input-label for="cover_photo" :value="__('Replace cover image (optional)')" />
+                <input
+                    id="cover_photo"
+                    name="cover_photo"
+                    type="file"
+                    accept="image/jpeg,image/png,image/gif,image/webp"
+                    class="mt-2 block w-full cursor-pointer rounded-xl border border-neutral-200 bg-neutral-50/50 px-3 py-2 text-sm text-neutral-800 file:me-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-neutral-900 file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-white hover:file:bg-neutral-800"
+                />
+                <p class="mt-1 text-xs text-neutral-500">{{ __('JPEG, PNG, GIF, or WebP. Max 5 MB.') }}</p>
+                <x-input-error class="mt-2" :messages="$errors->get('cover_photo')" />
+            </div>
+
+            @if ($course->cover_image)
+                <div class="flex items-center gap-2">
+                    <input
+                        id="remove_cover"
+                        name="remove_cover"
+                        type="checkbox"
+                        value="1"
+                        class="rounded border-neutral-300 text-neutral-900 shadow-sm focus:ring-neutral-900/20"
+                        {{ old('remove_cover') ? 'checked' : '' }}
+                    />
+                    <x-input-label for="remove_cover" :value="__('Remove cover image')" class="!mb-0" />
+                </div>
+            @endif
+
+            <div class="flex items-center gap-2">
+                <input
+                    id="is_published"
+                    name="is_published"
+                    type="checkbox"
+                    value="1"
+                    class="rounded border-neutral-300 text-neutral-900 shadow-sm focus:ring-neutral-900/20"
+                    {{ old('is_published', $course->is_published) ? 'checked' : '' }}
+                />
+                <x-input-label for="is_published" :value="__('Published')" class="!mb-0" />
+            </div>
+
+            <div class="flex items-center gap-4">
+                <x-primary-button>{{ __('Save changes') }}</x-primary-button>
+                <a href="{{ route('teacher.courses.show', $course) }}" class="text-sm font-medium text-neutral-600 hover:text-neutral-900">{{ __('Cancel') }}</a>
+            </div>
+        </form>
+    </x-ui.card>
+@endsection
