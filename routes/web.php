@@ -24,6 +24,10 @@ Route::get('/', function () {
     return redirect()->route('login');
 })->name('home');
 
+Route::get('/health', function () {
+    return response()->json(['status' => 'ok'], 200);
+})->name('health');
+
 Route::get('/dashboard', function () {
     return redirect()->to(Auth::user()->dashboardUrl());
 })->middleware(['auth', 'verified'])->name('dashboard');
