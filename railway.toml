@@ -1,0 +1,31 @@
+[build]
+builder = "NIXPACKS"
+
+[build.env]
+NPM_CONFIG_PRODUCTION = "false"
+
+[build.phases]
+build = "npm run build"
+
+[build.nixpacks]
+phases = {
+  build = {
+    cmds = [
+      "npm install",
+      "npm run build",
+      "php artisan config:cache",
+      "php artisan route:cache"
+    ]
+  }
+}
+
+[deploy]
+startCommand = "php artisan serve --host=0.0.0.0 --port=$PORT"
+healthcheckPath = "/"
+
+[deploy.healthcheck]
+path = "/"
+initialDelaySeconds = 10
+periodSeconds = 10
+timeoutSeconds = 5
+failureThreshold = 3
