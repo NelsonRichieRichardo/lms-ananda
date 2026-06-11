@@ -10,6 +10,7 @@ APP_URL = "${RAILWAY_PUBLIC_DOMAIN}"
 ASSET_URL = "${RAILWAY_PUBLIC_DOMAIN}"
 
 [build.nixpacks]
+providers = ["node@22"]
 phases = {
   build = {
     cmds = [
@@ -23,7 +24,6 @@ phases = {
     ]
   }
 }
-providers = ["node@22"]
 
 [deploy]
 startCommand = "php artisan serve --host=0.0.0.0 --port=${PORT}"
