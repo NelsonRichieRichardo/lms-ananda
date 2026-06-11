@@ -7,6 +7,7 @@ NODE_VERSION = "22"
 APP_ENV = "production"
 APP_DEBUG = "false"
 APP_URL = "${RAILWAY_PUBLIC_DOMAIN}"
+ASSET_URL = "${RAILWAY_PUBLIC_DOMAIN}"
 
 [build.nixpacks]
 phases = {
@@ -17,7 +18,8 @@ phases = {
       "php artisan key:generate --force",
       "php artisan migrate --force",
       "php artisan config:cache",
-      "php artisan route:cache"
+      "php artisan route:cache",
+      "php artisan view:cache"
     ]
   }
 }
