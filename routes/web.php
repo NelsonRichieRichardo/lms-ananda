@@ -20,13 +20,6 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/health', function () {
-    return response('OK', 200)
-        ->header('Content-Type', 'text/plain');
-})->withoutMiddleware([
-    \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
-]);
-
 Route::get('/', function () {
     return redirect()->route('login');
 })->name('home');
