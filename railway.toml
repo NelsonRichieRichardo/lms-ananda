@@ -3,6 +3,7 @@ builder = "NIXPACKS"
 
 [build.env]
 NPM_CONFIG_PRODUCTION = "false"
+NODE_VERSION = "22"
 
 [build.phases]
 build = "npm run build"
